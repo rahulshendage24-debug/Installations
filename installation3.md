@@ -3,53 +3,7 @@
 Step-by-step guide to provisioning an EC2 management host, installing essential Kubernetes tools, creating an EKS cluster with `eksctl`, fixing CNI permissions, and verifying cluster health.
 
 ---
-
-## Step 1: Launch Management EC2 Instance (Bastion Host)
-
-Run this via your local machine, AWS CLI, or launch directly in the AWS Console:
-
-```bash
-# 1. Create a key pair (if you don't have one)
-aws ec2 create-key-pair \
-  --key-name eks-bastion-key \
-  --region ap-south-1 \
-  --query 'KeyMaterial' \
-  --output text > eks-bastion-key.pem
-
-chmod 400 eks-bastion-key.pem
-
-# 2. Get latest Amazon Linux 2023 AMI ID
-AMI_ID=$(aws ec2 describe-images \
-  --owners amazon \
-  --filters "Name=name,Values=al2023-ami-2023.*-x86_64" "Name=state,Values=available" \
-  --region ap-south-1 \
-  --query 'sort_by(Images, &CreationDate)[-1].ImageId' \
-  --output text)
-
-# 3. Launch EC2 Instance (t3.micro / t2.micro)
-INSTANCE_ID=$(aws ec2 run-instances \
-  --image-id "$AMI_ID" \
-  --instance-type t3.micro \
-  --key-name eks-bastion-key \
-  --region ap-south-1 \
-  --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=eks-management-host}]' \
-  --query 'Instances[0].InstanceId' \
-  --output text)
-
-echo "Launched Instance ID: $INSTANCE_ID"
-
-# 4. Get Public IP
-PUBLIC_IP=$(aws ec2 describe-instances \
-  --instance-ids "$INSTANCE_ID" \
-  --region ap-south-1 \
-  --query 'Reservations[0].Instances[0].PublicIpAddress' \
-  --output text)
-
-echo "SSH into your instance:"
-echo "ssh -i eks-bastion-key.pem ec2-user@$PUBLIC_IP"
-```
-
----
+## Step 1: Launch  EC2 Instance
 
 ## Step 2: Install CLI Tools (`aws`, `kubectl`, `eksctl`)
 
