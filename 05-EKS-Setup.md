@@ -48,8 +48,14 @@ eksctl create cluster --name ashokit-cluster4 --region us-east-1 --node-type t2.
 ```
 ## Mumbai: <br/>
 ```
-eksctl create cluster --name ashokit-cluster4 --region ap-south-1 --node-type t2.medium  --zones ap-south-1a,ap-south-1b
-```
+eksctl create cluster \
+  --name my-eks-cluster \
+  --region ap-south-1 \
+  --version 1.31 \
+  --nodegroup-name free-tier-workers \
+  --node-type t3.micro \
+  --nodes 2 \
+  --managed```
 
 ## Note: Cluster creation will take 5 to 10 mins of time (we have to wait). After cluster created we can check nodes using below command.
 
