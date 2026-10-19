@@ -23,6 +23,7 @@ EOF
 
 ### 2. Update Metadata & Install Trivy
 
+
 Run the appropriate command depending on your Amazon Linux version:
 
 #### For Amazon Linux 2023:
@@ -45,4 +46,64 @@ Check that Trivy was successfully installed:
 
 ```bash
 trivy --version
+```
+
+# Trivy Commands Cheat Sheet
+
+A quick reference guide for essential Aqua Security Trivy commands.
+
+---
+
+### 1. Scan a Container Image
+Scan a local or remote container image for vulnerabilities:
+
+```bash
+trivy image imagename
+```
+
+---
+
+### 2. Scan Filesystem / Directory
+Scan application dependencies and configuration files in a specified folder:
+
+```bash
+trivy fs --scanners vuln,config Folder_name_OR_Path
+```
+
+> **Note:** `--scanners` is the modern flag replacing the legacy `--security-checks` option in newer versions of Trivy.
+
+---
+
+### 3. Filter by Severity Level
+Focus on priority vulnerabilities by filtering for `HIGH` and `CRITICAL` findings:
+
+```bash
+trivy image --severity HIGH,CRITICAL image_name
+```
+
+---
+
+### 4. Output Results to JSON File
+Save the scan report in JSON format for parsing, archiving, or CI/CD pipelines:
+
+```bash
+trivy image -f json -o results.json image_name
+```
+
+---
+
+### 5. Scan a Remote Repository
+Audit a remote Git repository without needing to clone it locally first:
+
+```bash
+trivy repo repo-url
+```
+
+---
+
+### 6. Scan a Kubernetes Cluster
+Audit workload misconfigurations and vulnerabilities across a running cluster:
+
+```bash
+trivy k8s --report summary cluster
 ```
