@@ -67,7 +67,18 @@
 
 ---
 
-## 6. Jenkins Declarative Pipeline (Jenkinsfile)
+## 6. Install Plugins in Jenkins
+
+1. Open Jenkins UI: `http://<JENKINS_IP>:8080`
+2. Navigate to: **Manage Jenkins** → **Plugins** → **Available plugins**
+3. Search and install the following plugins:
+   - **SonarQube Scanner** (version 2.16.1 or latest)
+   - **Sonar Quality Gates** (version 1.3.1 / 3.1)
+   - **Docker** (version 1.5 or latest)
+4. Select **Install without restart** or restart Jenkins once installation completes.
+
+
+## 7. Jenkins Declarative Pipeline (Jenkinsfile)
 
 ```groovy
 pipeline {
