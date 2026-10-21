@@ -23,14 +23,21 @@ curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/d
 sudo mv /tmp/eksctl /usr/local/bin
 eksctl version
 ```
-## Step - 2 : Create IAM role & attach to EKS Management Host ##
+### Step - 2: Create IAM User & Configure AWS CLI on EC2
 
-1) Create New Role using IAM service ( Select Usecase - ec2 ) 	
-2) Add below permissions for the role <br/>
-	- Administrator - acces <br/>
-		
-3) Enter Role Name (eksroleec2) 
-4) Attach created role to EKS Management Host (Select EC2 => Click on Security => Modify IAM Role => attach IAM role we have created) 
+#### Part A: Create IAM User & Keys (AWS Console)
+1. Go to **IAM** > **Users** > **Create user**.
+2. Name: `eks-admin-user` (leave console access unchecked) > **Next**.
+3. Select **Attach policies directly** > add `AdministratorAccess` > **Create user**.
+4. Open `eks-admin-user` > **Security credentials** tab > **Create access key**.
+5. Select **CLI** > acknowledge > **Create access key** > copy both **Access Key** and **Secret Access Key**.
+
+---
+
+#### Part B: Configure EC2 Instance
+1. Connect to EC2 and run:
+   ```bash
+   aws configure
 
 ## Step - 3 : Create EKS Cluster using eksctl ## 
 **Syntax:** 
